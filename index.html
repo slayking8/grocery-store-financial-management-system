@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="theme-color" content="#f7f3ea" />
+    <meta name="description" content="Protótipo móvel de vendas para pequenas mercearias." />
+    <title>Merca — Nova venda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=65298f4e1e5c" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <div class="sales-navigation">
+      <section class="controls" aria-label="Pesquisa e gestão">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+          <input id="searchInput" aria-label="Procurar produto" type="search" placeholder="Procurar produto..." autocomplete="off" />
+          <button id="clearSearch" data-clear-search="searchInput" class="clear-search" type="button" aria-label="Limpar pesquisa" hidden>×</button>
+        </div>
+        <button id="managementButton" class="organize-button management-button" type="button" aria-label="Abrir gestão" title="Gestão" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="10" rx="1"/><rect x="14" y="3" width="7" height="6" rx="1"/><rect x="3" y="17" width="7" height="4" rx="1"/><rect x="14" y="13" width="7" height="8" rx="1"/></svg>
+        </button>
+      </section>
+
+      <nav id="categoryList" class="categories" aria-label="Categorias"></nav>
+        <div class="section-heading">
+          <div><h2 id="sectionTitle" tabindex="-1">Mais vendidos</h2><p id="productCount"></p></div>
+        </div>
+      </div>
+      <section class="products-section" aria-labelledby="sectionTitle">
+        <div id="productGrid" class="product-grid"></div>
+        <div id="emptyState" class="empty-state" hidden>
+          <span>⌕</span><h3>Nenhum produto encontrado</h3><p>Tente pesquisar com outro nome.</p>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="managementDialog" class="page-dialog" aria-labelledby="managementTitle">
+      <header class="page-header">
+      <div class="invoice-heading">
+        <button id="managementMenuButton" class="management-back" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="managementMenu" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <h2 id="managementTitle" tabindex="-1">Dashboard</h2>
+        <button id="closeManagement" class="organize-button management-button" type="button" aria-label="Abrir vendas" title="Vendas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.5 12h11L21 7H6M8 11h11"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></button>
+      </div>
+      <dialog id="managementMenu" aria-labelledby="managementMenuTitle">
+        <header class="drawer-header"><h2 id="managementMenuTitle">Gestão</h2><button id="closeManagementMenu" class="management-back" type="button" aria-label="Fechar menu" autofocus>×</button></header>
+        <nav class="management-menu" aria-label="Gestão">
+          <button type="button" data-management-view="dashboard" aria-current="page">Dashboard</button>
+          <button type="button" data-management-view="inventory">Inventário</button>
+          <button type="button" data-management-view="settings">Configurações</button>
+        </nav>
+      </dialog>
+      </header>
+      <div id="managementContent" class="page-content">
+      <section id="dashboardView" aria-label="Dashboard">
+        <div class="dashboard-intro"><div><h3>Como vai a mercearia?</h3></div></div>
+        <div class="dashboard-toolbar"><div class="dashboard-periods" role="group" aria-label="Período dos indicadores"><button type="button" data-period="today" aria-pressed="true">Hoje</button><button type="button" data-period="week" aria-pressed="false">7 dias</button><button type="button" data-period="month" aria-pressed="false">30 dias</button></div><p id="dashboardPeriodLabel" role="status"></p></div>
+        <div id="dashboardContent"></div>
+      </section>
+      <section id="inventoryView" aria-label="Inventário" hidden>
+      <div class="inventory-actions">
+        <button id="addProduct" class="finish-button" type="button">Adicionar produto</button>
+      </div>
+
+      <div class="management-search"><label for="managementSearch">Procurar no catálogo</label><div class="search-field">
+        <input id="managementSearch" type="search" placeholder="Nome, unidade ou categoria" />
+        <button id="clearManagementSearch" data-clear-search="managementSearch" class="clear-search" type="button" aria-label="Limpar pesquisa do catálogo" hidden>×</button>
+      </div></div>
+      <p id="managementCount" role="status"></p>
+      <div id="managementProducts" class="product-grid"></div>
+      </section>
+      <section id="settingsView" aria-label="Configurações" hidden>
+      <section class="settings-content" aria-labelledby="settingsCategoriesTitle">
+        <h3 id="settingsCategoriesTitle">Categorias</h3>
+        <p class="management-note">Defina as categorias disponíveis e a ordem em que aparecem nas vendas e no registo de produtos.</p>
+        <ol id="settingsCategories" class="settings-categories"></ol>
+        <form id="categoryForm" class="register-form">
+          <label>Nova categoria<input id="newCategoryName" required maxlength="40" placeholder="Ex.: Congelados" /></label>
+          <button class="secondary-button" type="submit">Adicionar categoria</button>
+          <p id="categoryFeedback" class="management-note" role="status"></p>
+        </form>
+        <h3>Grupos</h3>
+        <p class="management-note">Junte variedades do mesmo produto num grupo.</p>
+        <ul id="settingsGroups" class="settings-categories"></ul>
+        <form id="groupForm" class="register-form">
+          <label>Novo grupo<input id="newGroupName" required maxlength="40" placeholder="Ex.: Massas" /></label>
+          <button class="secondary-button" type="submit">Adicionar grupo</button>
+          <p id="groupFeedback" class="management-note" role="status"></p>
+        </form>
+        <p class="management-note">Protótipo: as configurações desaparecem ao recarregar.</p>
+      </section>
+      </section>
+      </div>
+    </dialog>
+
+    <dialog id="newProductDialog" class="page-dialog" aria-labelledby="newProductTitle">
+      <div class="invoice-heading page-header"><h2 id="newProductTitle" tabindex="-1" autofocus>Adicionar produto</h2><button id="closeNewProduct" class="management-back" type="button" aria-label="Fechar novo produto">×</button></div>
+      <form id="newProductForm" class="register-form page-content">
+        <fieldset class="photo-editor"><legend>Imagem do produto (opcional)</legend>
+          <img id="newProductPhotoPreview" class="photo-preview" alt="Pré-visualização do produto" hidden />
+          <label>Escolher imagem<input id="newProductPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="newProductPhotoHint" /></label>
+          <p id="newProductPhotoHint" class="management-note">JPG, PNG ou WebP, até 10 MB.</p>
+          <p id="newProductPhotoStatus" class="management-note" role="status"></p>
+          <button id="newProductPhotoRemove" class="secondary-button" type="button" hidden>Remover imagem</button>
+        </fieldset>
+        <label>Nome do produto<input id="newProductName" required maxlength="100" /></label>
+        <label>Preço de venda (MT)<input id="newProductPrice" required inputmode="decimal" maxlength="16" placeholder="Ex.: 75,00" /></label>
+        <label>Unidade de venda<input id="newProductUnit" required maxlength="60" placeholder="Ex.: 1 kg, 500 ml, unidade" /></label>
+        <fieldset><legend>Categorias</legend><div id="newProductCategories" class="category-choices"></div></fieldset>
+        <label>Grupo (opcional)<select id="newProductGroup"></select></label>
+        <p class="management-note">O produto começa sem stock. Abra o produto e use Adicionar para registar a primeira entrada.</p>
+        <p id="newProductError" class="register-error" role="alert" hidden></p>
+        <button type="submit" class="finish-button">Adicionar produto</button>
+        <button id="cancelNewProduct" type="button" class="secondary-button">Cancelar</button>
+      </form>
+    </dialog>
+    <dialog id="removeTaxonomyDialog" class="floating-dialog" aria-labelledby="removeTaxonomyTitle">
+      <h2 id="removeTaxonomyTitle">Remover</h2>
+      <p id="removeTaxonomyMessage"></p>
+      <div class="register-form">
+        <button id="cancelRemoveTaxonomy" type="button" class="secondary-button" autofocus>Cancelar</button>
+        <button id="confirmRemoveTaxonomy" type="button" class="finish-button">Remover</button>
+      </div>
+    </dialog>
+
+    <dialog id="inventoryProductDialog" aria-labelledby="inventoryProductTitle">
+      <div class="invoice-heading"><h2 id="inventoryProductTitle" tabindex="-1"></h2><button id="closeInventoryProduct" class="management-back" type="button" aria-label="Voltar ao inventário"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7" /></svg></button></div>
+      <div id="inventoryProductContent">
+      <div id="inventoryProductDetails"></div>
+      <section id="inventoryCategoriesView" aria-label="Grupo e categorias" hidden>
+      <form id="productGroupForm" class="register-form">        <fieldset><legend>Categorias</legend><p class="management-note">Seleccione uma ou mais categorias definidas nas Configurações.</p><div id="registerCategories" class="category-choices"></div>
+        </fieldset>
+        <label>Grupo (opcional)<select id="registerGroup"><option value="">Sem grupo</option></select></label>
+<p id="productGroupError" class="register-error" role="alert" hidden></p>
+      <div id="productGroupActions" class="product-form-actions" hidden>
+      <button type="submit" class="finish-button">Guardar alterações</button>
+      <button id="cancelProductGroup" type="button" class="secondary-button">Cancelar alterações</button>
+      </div>
+      <p id="productGroupStatus" role="status"></p></form></section>
+      <section id="inventoryEditView" aria-label="Detalhes do produto" hidden>
+      <form id="registerForm" class="register-form">
+        <fieldset class="photo-editor"><legend>Imagem do produto (opcional)</legend>
+          <img id="registerPhotoPreview" class="photo-preview" alt="Pré-visualização do produto" hidden />
+          <label>Escolher imagem<input id="registerPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="registerPhotoHint" /></label>
+          <p id="registerPhotoHint" class="management-note">JPG, PNG ou WebP, até 10 MB.</p>
+          <p id="registerPhotoStatus" class="management-note" role="status"></p>
+          <button id="registerPhotoRemove" class="secondary-button" type="button" hidden>Remover imagem</button>
+        </fieldset>
+        <label>Nome do produto<input id="registerName" required maxlength="100" autocomplete="off" placeholder="Ex.: Arroz Corrente" /></label>
+        <label>Preço de venda (MT)<input id="registerPrice" required inputmode="decimal" type="text" maxlength="16" placeholder="Ex.: 75,00" /></label>
+        <label>Unidade de venda<input id="registerPackage" aria-describedby="sellingUnitHint" required maxlength="60" list="packageSuggestions" placeholder="Ex.: 1 kg, 500 ml, unidade" /></label>
+        <p id="sellingUnitHint" class="management-note">O preço indicado é por esta unidade: por exemplo, 75 MT por 1 kg ou 25 MT por 500 ml.</p>
+        <datalist id="packageSuggestions"></datalist>
+        <p id="registerError" class="register-error" role="alert" hidden></p>
+        <div id="productEditActions" class="product-form-actions" hidden>
+        <button class="finish-button" type="submit">Guardar alterações</button>
+        <button id="closeRegister" class="secondary-button" type="button">Cancelar alterações</button>
+        </div>
+      </form>
+<p id="productEditStatus" role="status"></p></section>
+      </div>
+      <nav class="inventory-bottom-nav" aria-label="Navegação do produto">
+        <button type="button" data-product-view="main" aria-current="page">Geral</button>
+        <button type="button" data-product-view="categories">Grupo</button>
+        <button id="editInventoryProduct" data-product-view="edit" type="button">Editar</button>
+      </nav>
+    </dialog>
+
+    <dialog id="stockMovementDialog" class="floating-dialog" aria-labelledby="stockMovementTitle">
+    <form id="stockMovementForm" class="register-form" novalidate>
+      <div class="invoice-heading"><h2 id="stockMovementTitle" tabindex="-1" autofocus></h2><button id="closeStockMovement" class="management-back" type="button" aria-label="Fechar ajuste de stock">×</button></div>
+      <label>Quantidade<input id="stockMovementQuantity" type="number" inputmode="numeric" min="1" step="1" required /></label>
+      <label>Motivo<select id="stockMovementReason" required></select></label>
+      <p id="stockMovementPreview" class="stock-movement-preview" role="status"></p>
+      <p id="stockMovementError" class="register-error" role="alert" hidden></p>
+      <button type="submit" id="confirmStockMovement" class="finish-button">Confirmar</button><button type="button" id="cancelStockMovement" class="secondary-button">Cancelar</button>
+    </form>
+    </dialog>
+
+    <div id="backdrop" class="backdrop" hidden></div>
+    <section id="saleSheet" tabindex="-1" class="sale-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+      <div class="checkout-header">
+      <div class="sheet-handle"></div>
+      <div class="invoice-heading"><div><h2 id="sheetTitle">Factura</h2></div><button id="closeSheet" class="close-button" type="button" aria-label="Voltar aos produtos" title="Voltar aos produtos">×</button></div>
+      </div>
+      <div id="checkoutContent" class="checkout-content">
+      <div id="invoiceItems" class="invoice-items"></div>
+      <button id="cancelInvoice" class="secondary-button cancel-invoice" type="button">Cancelar factura</button>
+      <button id="addMoreButton" class="secondary-button" type="button">+ Adicionar produtos</button>
+      <div class="sale-form">
+        <div class="sale-total"><span>Total</span><strong id="totalAmount">0 MT</strong></div>
+
+        <label class="money-label" for="receivedInput">Valor recebido</label>
+        <div class="money-input"><input id="receivedInput" type="number" inputmode="decimal" enterkeyhint="done" min="0" placeholder="0" /><span>MT</span></div>
+
+        <div id="changePanel" class="change-panel neutral"><span id="changeLabel">Troco</span><strong id="changeAmount">—</strong></div>
+        <button id="finishButton" class="finish-button" type="button" disabled>Concluir venda</button>
+      </div>
+      </div>
+    </section>
+
+    <button id="cartButton" class="cart-bar" type="button" hidden><span>Ver factura · <span id="cartCount"></span></span><strong id="cartTotal"></strong></button>
+
+    <dialog id="groupDialog" class="floating-dialog" aria-labelledby="groupTitle">
+      <div class="group-navigation">
+      <div class="invoice-heading"><h2 id="groupTitle"></h2><button id="closeGroup" class="close-button" type="button" aria-label="Voltar aos produtos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7" /></svg></button></div>
+      <section class="package-section" aria-label="Embalagens">
+        <div id="packageFilters" role="group" aria-label="Filtrar por tamanho da embalagem"></div>
+      </section>
+      <p id="groupResultCount" role="status" aria-live="polite"></p>
+      </div>
+      <div id="groupOptions"></div>
+    </dialog>
+
+    <dialog id="productDialog" class="floating-dialog" aria-labelledby="productTitle">
+      <div class="invoice-heading"><h2 id="productTitle" tabindex="-1" autofocus></h2><button id="closeProduct" class="close-button" type="button" aria-label="Fechar">×</button></div>
+      <p id="productPrice" class="dialog-description"></p>
+      <div class="field-label"><label for="quantityInput">Quantidade</label><span id="stockLabel"></span></div>
+      <div class="quantity-control">
+        <button id="minusButton" type="button" aria-label="Diminuir quantidade">−</button>
+        <input id="quantityInput" type="number" inputmode="numeric" autocomplete="off" enterkeyhint="done" aria-describedby="stockLabel" min="1" step="1" value="1" />
+        <button id="plusButton" type="button" aria-label="Aumentar quantidade">+</button>
+      </div>
+      <div class="sale-total"><span>Subtotal</span><strong id="productSubtotal" aria-live="polite" aria-atomic="true">—</strong></div>
+      <button id="addProductButton" class="finish-button dialog-action" type="button">Adicionar à factura</button>
+    </dialog>
+
+    <dialog id="cancelInvoiceDialog" class="floating-dialog" aria-labelledby="cancelInvoiceTitle" aria-describedby="cancelInvoiceDescription">
+      <h2 id="cancelInvoiceTitle">Cancelar esta factura?</h2>
+      <p id="cancelInvoiceDescription" class="dialog-description">Todos os produtos e o valor recebido serão removidos.</p>
+      <div class="dialog-actions">
+        <button id="keepInvoice" class="secondary-button" type="button" autofocus>Continuar na factura</button>
+        <button id="confirmCancelInvoice" class="finish-button danger-button" type="button">Sim, cancelar factura</button>
+      </div>
+    </dialog>
+
+    <dialog id="stockDialog" class="floating-dialog" aria-labelledby="stockTitle" aria-describedby="stockDescription">
+      <div class="stock-warning-header">
+        <div class="stock-warning-title"><span class="warning-icon" aria-hidden="true">!</span><h2 id="stockTitle">Stock insuficiente</h2></div>
+        <p id="stockDescription" class="dialog-description">Ao vender mesmo assim, o stock registado ficará negativo.</p>
+      </div>
+      <ul id="stockShortages" class="stock-shortages" tabindex="0" aria-label="Produtos com stock insuficiente"></ul>
+      <div class="dialog-actions"><button id="cancelStock" class="secondary-button" type="button" autofocus>Cancelar</button><button id="confirmStock" class="finish-button danger-button" type="button">Vender mesmo assim</button></div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">
+      <span>✓</span>
+      <div><strong>Venda registada</strong><small hidden></small></div>
+      <button id="closeToast" class="toast-close" type="button" aria-label="Fechar confirmação">×</button>
+    </div>
+    <script src="app.js?v=e3aabdf43060"></script>
+  </body>
+</html>

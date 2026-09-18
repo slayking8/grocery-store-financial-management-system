@@ -1,0 +1,195 @@
+[
+  {
+    "productId": 2,
+    "file": "product-2-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/oleo-dona-1l/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2022/08/oleo-dona-1l-1.jpg",
+    "retrieved": "2026-09-10",
+    "originalFile": "product-2.jpg",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "productId": 17,
+    "file": "product-17-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/oleo-dona/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2021/03/Oleo-dona-2l.jpg",
+    "retrieved": "2026-09-10",
+    "originalFile": "product-17.jpg",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "productId": 21,
+    "file": "product-21-cutout.webp",
+    "page": "https://www.continente.pt/produto/oleo-alimentar-fula-2004635.html",
+    "image": "https://www.continente.pt/on/demandware.static/-/Sites-col-master-catalog/default/dw9d2e8919/images/col/200/2004635-frente.jpg",
+    "retrieved": "2026-09-10",
+    "originalFile": "product-21.jpg",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "productId": 25,
+    "file": "product-25-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/sabonete-securex-care-175g/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2024/02/securex-care.jpg",
+    "retrieved": "2026-09-10",
+    "originalFile": "product-25.jpg",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "productId": 27,
+    "file": "product-27-cutout.webp",
+    "page": "https://www.protex.co.za/products/protex-herbal",
+    "image": "https://www.protex.co.za/content/dam/cp-sites-aem/personal-care/protex/en-za/products/protex-herbal-24h-en-za.jpg",
+    "retrieved": "2026-09-10",
+    "originalFile": "product-27.jpg",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "arroz-royal-aroma-1kg-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/arroz-royal-aroma-1kg/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2024/11/RoyalAroma.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 1,
+    "retrieved": "2026-09-10",
+    "originalFile": "arroz-royal-aroma-1kg.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "arroz-arrima-thai-25kg-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/arroz-arrima-thai-25kg/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2024/01/arroz-arima-thai.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 15,
+    "retrieved": "2026-09-10",
+    "note": "Page title says Thai; visible bag says Arroz da Índia, 25 kg. Catalogue follows the bag.",
+    "originalFile": "arroz-arrima-thai-25kg.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "arroz-basmati-brown-ashoka-1kg-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/arroz-basmati-brown-ashoka-1kg/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-06-at-13.26.391.jpeg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 12,
+    "retrieved": "2026-09-10",
+    "originalFile": "arroz-basmati-brown-ashoka-1kg.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "pao-de-lenha-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/pao-de-lenha/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2021/03/pao-de-lenh.jpeg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 33,
+    "retrieved": "2026-09-10",
+    "originalFile": "pao-de-lenha.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "sabonete-securex-romance-175g.webp",
+    "page": "https://www.ranxo.co.mz/product/sabonete-securex-romance-175g/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2023/02/romance.png",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 29,
+    "retrieved": "2026-09-10"
+  },
+  {
+    "file": "sabonete-securex-pamper-175g.webp",
+    "page": "https://www.ranxo.co.mz/product/sabonete-securex-pamper-175g/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2023/06/securex-pamper.png",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 30,
+    "retrieved": "2026-09-10"
+  },
+  {
+    "file": "sabonete-protex-fresh-150g-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/sabonete-protex-fresh-150g/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2022/06/protex-fresh.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 31,
+    "retrieved": "2026-09-10",
+    "originalFile": "sabonete-protex-fresh-150g.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "sabonete-protex-clean-150g-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/sabonete-protex-clean-150g/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2022/06/protex-deep.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 32,
+    "retrieved": "2026-09-10",
+    "originalFile": "sabonete-protex-clean-150g.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "namaste-5kg-cutout.webp",
+    "page": "https://bazara.co.mz/vns-8906010701147-arroz-basmati-extra-longo-namaste-5-kg",
+    "image": "https://cdn.bazara.co.mz/media/catalog/product/cache/bf49dd73f0c5af308fe168a7669f00fa/v/n/vns-8906010701147.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 13,
+    "retrieved": "2026-09-10",
+    "originalFile": "namaste-5kg.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "bread-carcaca-cutout.webp",
+    "page": "https://www.panificadoraareeiro.pt/menu/carcaca-2/",
+    "image": "https://www.panificadoraareeiro.pt/wp-content/uploads/2014/01/panificadora-do-areeiro-pao-padaria-img-7011-950x600.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 5,
+    "retrieved": "2026-09-10",
+    "note": "Representative photograph of this unbranded bread type from a bakery outside Mozambique; not the owner’s actual bread.",
+    "originalFile": "bread-carcaca.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "bread-baguette-cutout.webp",
+    "page": "https://shop.europastry.com/es/producto/10012/Barra-Grande",
+    "image": "https://www.europastry.media/catalog_images/images/FRIDA10012140701111552.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 24,
+    "retrieved": "2026-09-10",
+    "note": "Representative photograph of this unbranded bread type from a bakery outside Mozambique; not the owner’s actual bread.",
+    "originalFile": "bread-baguette.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "blue-ribbon-brown-700g-cutout.webp",
+    "page": "https://bazara.co.mz/vns-799439745841-p-o-integral-blue-ribbon-700-g",
+    "image": "https://cdn.bazara.co.mz/media/catalog/product/cache/bf49dd73f0c5af308fe168a7669f00fa/t/m/tm-blu5841_1.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 23,
+    "retrieved": "2026-09-10",
+    "originalFile": "blue-ribbon-brown-700g.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "arima-10kg-cutout.webp",
+    "page": "https://www.ranxo.co.mz/product/arroz-arima-tailandia-10kg/",
+    "image": "https://www.ranxo.co.mz/wp-content/uploads/2025/03/a7fcc2d3-dc10-4e95-985d-f8ecee790b0c-600x597.jpeg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 14,
+    "retrieved": "2026-09-10",
+    "originalFile": "arima-10kg.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "rani-basmati-1kg-cutout.webp",
+    "page": "https://recheio.co.mz/product/rice-basmati-rani-1kg",
+    "image": "https://cdn.recheio.co.mz/assets/images/uploads/productimages/RiceBasmatiRani1KG20221222T142847-2.jpg",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 11,
+    "retrieved": "2026-09-10",
+    "note": "Historical package photo; printed 2019/2021 dates are part of the source photo, not current stock dates.",
+    "originalFile": "rani-basmati-1kg.webp",
+    "backgroundRemoval": "Local U2Net foreground mask with manual corrections for Royal Aroma, Dona 2L and Rani handle; original product photograph retained. Transparent WebP, max 640px, quality 90. Originals preserved."
+  },
+  {
+    "file": "blue-ribbon-white-700g.webp",
+    "page": "https://www.blueribbon.co.za/",
+    "image": "https://www.blueribbon.co.za/media/qggcpy2k/blue_ribbon_bread_240mm_classic_white_sliced_700g_optimsed.png",
+    "optimization": "Proportional resize to max 640px and WebP encoding; no crop or packaging edits.",
+    "productId": 22,
+    "retrieved": "2026-09-10"
+  }
+]

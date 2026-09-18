@@ -1,0 +1,35 @@
+I wanna build a grocery store financial management system for small business
+in mozambique, I wanna it to be something simple, something that one needs
+only an android phone as the menimum requirement to use it. I'd like to make
+it as the accounting game (the lemonade stand), everything should be recorded
+assets: inventory (mainly), accounts receivable and everything I will figure out 
+as time passes; liabilities: accounts payables; and owner equity tracking...
+
+That's just the general idea of what I wanna build in the long run, I don't 
+wanna focus on all that right away. What I want now is to focus on the
+selling part of the thing, just the UI for now and nothing else. I'll describe
+the flow of what I am imagining and you'll give a first version, sketch-like thing.
+
+Imagine I am a grocery owner and I've uploaded all of my inventory in the system 
+and the selling goes like, a pannel with all the products I sell presented as in the 
+image sample_1, available in the root of the project. So, I click in the product, I 
+input how many items and the how much money was received from the client and it tells
+the change.
+
+The Products will be separated by category depending on the grocery owner. Or maybe the 
+will have the option to reorganize everything based on his own flow (what's most like to be
+sold and all). The category are not fixed they're customizable too.
+
+There this other app where the goal is to facilitate people locate assests/things 
+they want, but for that we would need people to register in, of course. What I thought is 
+to add the people using the grocey management system to the other app as they'd already 
+uploaded their in inventory into the grocery system.
+
+Everything will be recorded in an append only ledger. But it's a backend detail, As I've already
+said, no backend for now.
+
+Build me and frontend for that. If there's something I need to clarify don't 
+hesitate to ask.
+
+### IMPORTANT
+    We're not handling compra por "levantamento."
