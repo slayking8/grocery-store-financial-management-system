@@ -39,13 +39,16 @@ for (const id of [2, 17, 21, 25, 27]) {
   products.find(product => product.id === id).photo = `assets/products/product-${id}-cutout.webp`;
 }
 
+// Expand the isolated keypad prototype before building groups and browsing tiles.
+addKeypadSampleCatalogue(products);
+
 // Configured independently of product membership, including unused categories.
 const configuredCategories = ["Cereais", "Mercearia", "Bebidas", "Padaria", "Frescos", "Casa", "Essenciais", "Despensa", "Promoções"];
 
 const configuredGroups = [...new Set(products.map(product => product.group).filter(Boolean))];
 
 // Illustrative ranking of exact products; replace with recorded sales data later.
-const bestSellerIds = [5, 1, 2, 3, 6, 4, 25, 10, 13, 22];
+const bestSellerIds = [5, 1, 2, products.find(product => product.group === "Sumo").id, 4, 6, 25, 10, 13, 22];
 const state = { category: "Mais vendidos", query: "", selected: null, cart: [] };
 const favorites = new Set();
 const catalog = [];
@@ -97,9 +100,18 @@ function renderCategories() {
 const searchable = value => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
 const productLabel = product => `${product.name} · ${product.unit}`;
+const compactSellingUnit = unit => unit === "unidade" ? "1" : unit.replace(/\blitros?\b/gi, "L").replace(/\s+(?=(?:kg|g|ml|l)\b)/gi, "");
+const compactCardPrice = price => money(price).replace(/\s+MT$/, "MT");
 const groupProducts = group => products.filter(product => product.group === group);
 
 function visibleTiles() {
+  if (window.keypadMode?.active) return keypadAssignments
+    .filter(row => products.some(product => product.id === row.productId) && row.code.startsWith(window.keypadMode.query))
+    .sort((a, b) => {
+      const left = BigInt(a.code), right = BigInt(b.code);
+      return left < right ? -1 : left > right ? 1 : a.code.localeCompare(b.code);
+    })
+    .map(row => ({ key: `product:${row.productId}`, product: products.find(product => product.id === row.productId) }));
   if (state.query) return products.filter(product =>
     (["Todos", "Mais vendidos", "Atalhos"].includes(state.category) || product.categories.includes(state.category)) &&
     searchable(`${product.name} ${product.unit} ${product.group || ""} ${product.categories.join(" ")}`).includes(searchable(state.query))
@@ -117,25 +129,39 @@ function productArt(product) {
     : `<span class="product-emoji" aria-hidden="true">${product.emoji}</span>`;
 }
 
+function quickQuantityControls(product) {
+  const quantity = state.cart.find(item => item.product.id === product.id)?.quantity || 0;
+  const exceedsStock = quantity > product.stock;
+  return quantity
+    ? `<div class="card-quantity${exceedsStock ? " stock-short" : ""}" role="group" aria-label="Quantidade de ${escapeHTML(productLabel(product))} na factura${exceedsStock ? `; stock insuficiente, ${product.stock} disponíveis` : ""}"><button type="button" data-cart-adjust="-1" aria-label="Retirar uma unidade de ${escapeHTML(productLabel(product))}">−</button><output aria-live="polite" aria-label="${quantity} na factura${exceedsStock ? `; stock insuficiente, ${product.stock} disponíveis` : ""}">${quantity}</output><button type="button" data-cart-adjust="1" aria-label="Adicionar uma unidade de ${escapeHTML(productLabel(product))}">+</button></div>`
+    : `<button class="card-add" type="button" data-cart-adjust="1" aria-label="Adicionar ${escapeHTML(productLabel(product))} à factura">+ Adicionar</button>`;
+}
+
 function renderProducts() {
   const visible = visibleTiles();
+  const codeSearchActive = !!window.keypadMode?.active;
+  $("#sectionTitle").hidden = codeSearchActive;
   $("#sectionTitle").textContent = state.query ? "Resultados" : state.category === "Todos" ? "Todos os produtos" : state.category;
-  $("#productCount").textContent = `${visible.length} ${state.query ? "resultados" : "opções"}`;
+  $(".products-section").setAttribute("aria-label", codeSearchActive ? "Resultados por código" : $("#sectionTitle").textContent);
+  $("#productCount").textContent = `${visible.length} ${codeSearchActive || state.query ? visible.length === 1 ? "resultado" : "resultados" : visible.length === 1 ? "opção" : "opções"}`;
   $("#emptyState").hidden = visible.length > 0;
   $("#emptyState h3").textContent = !state.query && state.category === "Atalhos" ? "Ainda sem atalhos" : "Nenhum produto encontrado";
-  $("#emptyState p").textContent = !state.query && state.category === "Atalhos" ? "Abra um grupo em Todos e toque na estrela de um produto." : "Tente pesquisar com outro nome.";
+  $("#emptyState p").textContent = window.keypadMode?.active ? "Tente outro código." : !state.query && state.category === "Atalhos" ? "Abra um grupo em Todos e toque na estrela de um produto." : "Tente pesquisar com outro nome.";
   grid.innerHTML = visible.map(tile => {
     const product = tile.product;
     const variants = tile.group ? groupProducts(tile.group) : [];
     const grouped = variants.length > 1;
     const label = grouped ? tile.group : product.name;
+    const quickControls = grouped ? "" : quickQuantityControls(product);
     return `<article class="product-card" data-key="${tile.key}" ${grouped ? `data-group="${escapeHTML(tile.group)}"` : `data-id="${product.id}"`}>
       <button class="product-open" type="button" aria-label="${grouped ? `Escolher ${escapeHTML(tile.group)}: ${variants.length} opções` : `Vender ${escapeHTML(productLabel(product))}`}">
+        ${grouped ? "" : `<span class="product-stock-badge" aria-label="${product.stock} disponíveis">${product.stock}</span>`}
         <div class="product-visual" style="--tilt:${product.tilt}">${grouped ? `<span class="product-emoji" aria-hidden="true">${product.emoji}</span>` : productArt(product)}</div>
         <div class="product-info"><h3 class="product-name">${escapeHTML(label)}</h3><div class="product-meta">
-          ${grouped ? `<strong class="product-price group-option-count">${variants.length} opções ›</strong>` : `<strong class="product-price">${money(product.price)}</strong><span class="product-unit">${escapeHTML(product.unit)}</span>${favorites.has(product.id) ? '<span class="shortcut-label">★ Atalho</span>' : ""}`}
-        </div><span class="product-stock">${grouped ? variants.reduce((total, variant) => total + variant.stock, 0) : product.stock} disponíveis</span></div>
+          ${grouped ? `<strong class="product-price group-option-count">${variants.length} opções ›</strong>` : `<strong class="product-price">${compactCardPrice(product.price)}</strong><span class="product-meta-separator" aria-hidden="true">·</span><span class="product-unit">${escapeHTML(compactSellingUnit(product.unit))}</span>`}
+        </div></div>
       </button>
+      ${quickControls}
     </article>`;
   }).join("");
 }
@@ -166,11 +192,13 @@ function renderGroup() {
   const visible = variants.filter(product => activePackageSize === null || product.unit === activePackageSize);
   $("#groupResultCount").textContent = `${visible.length} ${visible.length === 1 ? "opção" : "opções"}`;
   $("#groupOptions").innerHTML = visible.map(product => `
-    <article class="variant-card">
+    <article class="variant-card" data-id="${product.id}">
       <button class="variant-select" type="button" data-variant="${product.id}" aria-label="Escolher ${escapeHTML(productLabel(product))}">
+        <span class="product-stock-badge" aria-label="${product.stock} disponíveis">${product.stock}</span>
         <span class="variant-visual">${productArt(product)}</span>
-        <span class="variant-info"><strong class="variant-name">${escapeHTML(product.name)}</strong><span class="variant-unit">${escapeHTML(product.unit)}</span><strong class="variant-price">${money(product.price)}</strong><small>${product.stock} disponíveis</small></span>
+        <span class="variant-info"><strong class="variant-name">${escapeHTML(product.name)}</strong><span class="variant-meta"><strong class="variant-price">${compactCardPrice(product.price)}</strong><span class="product-meta-separator" aria-hidden="true">·</span><span class="variant-unit">${escapeHTML(compactSellingUnit(product.unit))}</span></span></span>
       </button>
+      ${quickQuantityControls(product)}
       <button class="favorite-button" type="button" data-favorite="${product.id}" aria-pressed="${favorites.has(product.id)}" aria-label="${favorites.has(product.id) ? "Remover atalho de" : "Criar atalho para"} ${escapeHTML(productLabel(product))}">${favorites.has(product.id) ? "★" : "☆"}</button>
     </article>`).join("");
 }
@@ -185,18 +213,20 @@ function openGroup(group) {
   $("#packageFilters").scrollLeft = 0;
 }
 
-function selectProduct(product) {
+function selectProduct(product, startAtOne = false) {
   state.selected = product;
   const line = state.cart.find(item => item.product.id === product.id);
   $("#productTitle").textContent = product.name;
   $("#productPrice").textContent = `${money(product.price)} · ${product.unit}`;
   $("#stockLabel").textContent = `${product.stock} disponíveis`;
-  $("#quantityInput").value = line ? line.quantity : 1;
+  $("#quantityInput").value = line && !startAtOne ? line.quantity : 1;
   $("#addProductButton").textContent = line ? "Actualizar quantidade" : "Adicionar à factura";
   updateQuantity();
   $("#productDialog").showModal();
-  $("#productTitle").focus({ preventScroll: true });
   $("#productDialog").scrollTop = 0;
+  $("#quantityInput").focus({ preventScroll: true });
+  $("#quantityInput").select();
+  scrollQuantityToBottom();
 }
 
 const invoiceTotal = () => state.cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
@@ -259,6 +289,7 @@ function resetInvoice() {
   state.cart = [];
   state.selected = null;
   $("#receivedInput").value = "";
+  renderProducts();
   closeSheet();
 }
 
@@ -300,6 +331,10 @@ $("#searchInput").addEventListener("input", updateSearch);
 document.querySelectorAll("[data-clear-search]").forEach(button => {
   button.addEventListener("click", () => {
     const input = document.getElementById(button.dataset.clearSearch);
+    if (input === $("#searchInput") && window.keypadMode?.active) {
+      window.clearKeypadQuery();
+      return;
+    }
     input.value = "";
     input.dispatchEvent(new Event("input", {bubbles: true}));
     input.focus({preventScroll: true});
@@ -317,13 +352,36 @@ $("#confirmCancelInvoice").addEventListener("click", () => {
 });
 $("#managementButton").addEventListener("click", () => { showManagementView("dashboard", false); $("#managementDialog").showModal(); });
 $("#closeManagement").addEventListener("click", () => $("#managementDialog").close());
+function adjustCartFromCard(card, change) {
+  const product = products.find(item => item.id === Number(card.dataset.id));
+  if (!product) return;
+  const line = state.cart.find(item => item.product.id === product.id);
+  const quantity = Math.max(0, (line?.quantity || 0) + change);
+  if (line && quantity) line.quantity = quantity;
+  else if (line) state.cart = state.cart.filter(item => item.product.id !== product.id);
+  else if (quantity) state.cart.push({product, quantity});
+  const controls = card.querySelector(".card-add, .card-quantity");
+  if (controls) controls.outerHTML = quickQuantityControls(product);
+  renderInvoice();
+  const nextAction = card.querySelector(`[data-cart-adjust="${change > 0 ? 1 : -1}"]`)
+    || card.querySelector("[data-cart-adjust]");
+  nextAction?.focus({preventScroll: true});
+}
+
 grid.addEventListener("click", event => {
   const card = event.target.closest(".product-card"); if (!card) return;
+  const adjustment = event.target.closest("[data-cart-adjust]");
+  if (adjustment) { adjustCartFromCard(card, Number(adjustment.dataset.cartAdjust)); return; }
   if (card.dataset.group) openGroup(card.dataset.group);
-  else selectProduct(products.find(product => product.id === Number(card.dataset.id)));
+  else selectProduct(products.find(product => product.id === Number(card.dataset.id)), !!window.keypadMode?.active);
 });
-$("#closeGroup").addEventListener("click", () => $("#groupDialog").close());
+$("#closeGroup").addEventListener("click", () => { $("#groupDialog").close(); renderProducts(); });
 $("#groupOptions").addEventListener("click", event => {
+  const adjustment = event.target.closest("[data-cart-adjust]");
+  if (adjustment) {
+    adjustCartFromCard(event.target.closest(".variant-card"), Number(adjustment.dataset.cartAdjust));
+    return;
+  }
   const variant = event.target.closest("[data-variant]");
   if (variant) selectProduct(products.find(product => product.id === Number(variant.dataset.variant)));
   const favorite = event.target.closest("[data-favorite]");
@@ -401,6 +459,7 @@ $("#addProductButton").addEventListener("click", () => {
   else state.cart.push({ product: state.selected, quantity });
   $("#productDialog").close();
   if ($("#groupDialog").open) $("#groupDialog").close();
+  renderProducts();
   renderInvoice();
 });
 $("#invoiceItems").addEventListener("click", event => {
@@ -409,6 +468,7 @@ $("#invoiceItems").addEventListener("click", event => {
   if (edit) selectProduct(products.find(product => product.id === Number(edit.dataset.edit)));
   if (remove) {
     state.cart = state.cart.filter(item => item.product.id !== Number(remove.dataset.remove));
+    renderProducts();
     renderInvoice();
     $("#addMoreButton").focus();
   }
@@ -482,9 +542,8 @@ function renderManagement() {
   const visible = products.filter(product => searchable(`${product.name} ${product.unit} ${product.categories.join(" ")}`).includes(query));
   $("#managementCount").textContent = `${visible.length} produtos`;
   $("#managementProducts").innerHTML = visible.map(product => `<article class="product-card management-card">
-    <button class="product-open" type="button" data-inventory-product="${product.id}" aria-label="Ver ${escapeHTML(productLabel(product))}"><div class="product-visual" style="--tilt:${product.tilt}">${productArt(product)}</div>
-    <div class="product-info"><h3 class="product-name">${escapeHTML(product.name)}</h3><div class="product-meta"><strong class="product-price">${money(product.price)}</strong><span class="product-unit">${escapeHTML(product.unit)}</span></div>
-    <span class="product-stock">${product.stock} disponíveis</span></div></button>
+    <button class="product-open" type="button" data-inventory-product="${product.id}" aria-label="Ver ${escapeHTML(productLabel(product))}"><span class="product-stock-badge" aria-label="${product.stock} disponíveis">${product.stock}</span><div class="product-visual" style="--tilt:${product.tilt}">${productArt(product)}</div>
+    <div class="product-info"><h3 class="product-name">${escapeHTML(product.name)}</h3><div class="product-meta"><strong class="product-price">${compactCardPrice(product.price)}</strong><span class="product-meta-separator" aria-hidden="true">·</span><span class="product-unit">${escapeHTML(compactSellingUnit(product.unit))}</span></div></div></button>
   </article>`).join("") || '<p>Nenhum produto encontrado.</p>';
 }
 

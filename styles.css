@@ -737,3 +737,295 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
 .back-to-top:active { cursor: grabbing; }
 .back-to-top:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .back-to-top svg { width: 26px; height: 26px; pointer-events: none; }
+
+/* Optional one-tap quantity controls on exact product cards. */
+.card-add, .card-quantity {
+  flex: 0 0 auto;
+  min-height: 48px;
+  margin: 0 8px 8px;
+}
+.card-add {
+  width: calc(100% - 16px);
+  border: 1px solid var(--green);
+  color: var(--green);
+  background: var(--card);
+  font-size: var(--text-detail);
+  font-weight: 700;
+  cursor: pointer;
+}
+.card-quantity {
+  display: grid;
+  grid-template-columns: minmax(44px, 1fr) minmax(32px, auto) minmax(44px, 1fr);
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.card-quantity button {
+  min-width: 44px;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  color: var(--green);
+  background: var(--card);
+  font-size: var(--text-body);
+  font-weight: 800;
+  cursor: pointer;
+}
+.card-quantity output {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  padding-inline: 3px;
+  font-size: var(--text-detail);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.card-add:focus-visible, .card-quantity button:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: -3px;
+}
+
+/* Compact stock count on exact sales cards. */
+.product-stock-badge {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  background: rgba(255, 253, 248, .94);
+  color: var(--ink);
+  font-size: var(--text-detail);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 8px rgba(23, 36, 29, .12);
+}
+
+/* Align the stock badge directly with the image edges. */
+.product-stock-badge {
+  top: 8px;
+  right: 8px;
+}
+@media (max-width: 480px) {
+  .product-stock-badge {
+    top: 6px;
+    right: 6px;
+  }
+}
+
+/* Keep price, separator and selling unit on one compact line. */
+.product-card:not([data-group]) .product-meta {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 0;
+  white-space: nowrap;
+}
+.product-meta-separator {
+  color: var(--muted);
+  font-size: var(--text-detail);
+}
+.product-card:not([data-group]) .product-unit {
+  min-width: 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Price · unit returns to one line with the separator between both edges. */
+.product-card:not([data-group]) .product-meta,
+.variant-meta {
+  display: grid;
+  grid-template-columns: minmax(0, auto) auto minmax(0, auto);
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
+  white-space: nowrap;
+}
+.product-card:not([data-group]) .product-unit,
+.variant-meta .variant-unit {
+  min-width: 0;
+  text-align: right;
+  white-space: nowrap;
+}
+.variant-card {
+  display: flex;
+  flex-direction: column;
+}
+.variant-select {
+  flex: 1 1 auto;
+  height: auto;
+}
+.variant-info {
+  gap: 8px;
+}
+.variant-meta .variant-price {
+  margin: 0;
+  padding: 0;
+}
+.variant-card .product-stock-badge {
+  top: 0;
+  right: 0;
+}
+.variant-card > .favorite-button {
+  top: 0;
+  right: auto;
+  left: 0;
+}
+
+/* Match the stock tab height to the favourite tab. */
+.product-stock-badge {
+  height: 30.8px;
+  min-height: 30.8px;
+  padding-block: 0;
+}
+
+/* Merge group-card corner controls into the card's single outer border. */
+.variant-card > .favorite-button {
+  border-top: 0;
+  border-left: 0;
+  border-radius: 5px 0 0 0 !important;
+  box-shadow: none;
+}
+.variant-card .product-stock-badge {
+  border-top: 0;
+  border-right: 0;
+  border-radius: 0 5px 0 0 !important;
+  box-shadow: none;
+}
+
+/* Both quick-control states occupy the same fixed space. */
+.card-add, .card-quantity {
+  height: 48px;
+  min-height: 48px;
+}
+.product-card:has([data-cart-adjust]:active) {
+  transform: none;
+}
+
+/* Match the main-card press feedback inside product groups. */
+.variant-card {
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.variant-card:active {
+  transform: scale(.975);
+}
+
+/* Translucent glass treatment for image-corner controls. */
+.product-stock-badge,
+.favorite-button {
+  border-color: rgba(255, 255, 255, .58);
+  background: rgba(255, 253, 248, .62);
+  -webkit-backdrop-filter: blur(8px) saturate(1.15);
+  backdrop-filter: blur(8px) saturate(1.15);
+}
+.favorite-button[aria-pressed="true"] {
+  border-color: rgba(23, 107, 69, .45);
+  background: rgba(227, 243, 232, .72);
+}
+
+/* Fully transparent image-corner controls. */
+.product-stock-badge,
+.favorite-button,
+.favorite-button[aria-pressed="true"] {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Show only the favourite glyph and stock number over the image. */
+.product-stock-badge,
+.favorite-button,
+.favorite-button[aria-pressed="true"] {
+  border: 0;
+  box-shadow: none;
+}
+
+/* Square the requested diagonal corners on quick quantity actions. */
+.card-add,
+.card-quantity button {
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Keep the initial add button rounded; change only the later −/+ controls. */
+.card-add {
+  border-radius: 5px !important;
+}
+.card-quantity button {
+  border-radius: 5px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Keep only the stepper's inner button corners square. */
+.card-quantity button:first-child {
+  border-radius: 5px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.card-quantity button:last-child {
+  border-radius: 5px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Use the group-card surface and image treatment across catalogue cards. */
+.product-card {
+  border-color: var(--line);
+  box-shadow: none;
+}
+.product-card .product-visual {
+  margin: 0;
+  padding: 8px;
+}
+.product-card .product-visual .product-image {
+  inset: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+}
+.product-card .product-info {
+  padding: 12px 10px;
+}
+.product-card .product-stock-badge {
+  top: 0;
+  right: 0;
+}
+.management-card .product-meta {
+  display: grid;
+  grid-template-columns: minmax(0, auto) auto minmax(0, auto);
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
+  white-space: nowrap;
+}
+.management-card .product-unit {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Immediate stock feedback for the card quantity shortcut. */
+.card-quantity.stock-short {
+  border-color: #c84e42;
+  background: #fae8e5;
+  box-shadow: 0 0 0 2px rgba(200, 78, 66, .1);
+}
+.card-quantity.stock-short button,
+.card-quantity.stock-short output {
+  color: #a94338;
+  background: #fae8e5;
+}
+
+/* Quick −/+ buttons remain transparent in normal and shortage states. */
+.card-quantity button,
+.card-quantity.stock-short button {
+  background: transparent;
+}

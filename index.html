@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=65298f4e1e5c" />
+    <link rel="stylesheet" href="styles.css?v=20260922-transparent-stepper-buttons" />
+    <link rel="stylesheet" href="keypad.css?v=20260922-count-right">
   </head>
   <body>
     <main class="app-shell">
@@ -73,6 +74,10 @@
       <div id="managementProducts" class="product-grid"></div>
       </section>
       <section id="settingsView" aria-label="Configurações" hidden>
+      <section class="settings-content" aria-labelledby="settingsKeypadTitle">
+        <h3 id="settingsKeypadTitle">Pesquisa por código</h3>
+        <button id="configureKeypad" class="secondary-button" type="button">Configurar códigos</button>
+      </section>
       <section class="settings-content" aria-labelledby="settingsCategoriesTitle">
         <h3 id="settingsCategoriesTitle">Categorias</h3>
         <p class="management-note">Defina as categorias disponíveis e a ordem em que aparecem nas vendas e no registo de produtos.</p>
@@ -251,6 +256,9 @@
       <div><strong>Venda registada</strong><small hidden></small></div>
       <button id="closeToast" class="toast-close" type="button" aria-label="Fechar confirmação">×</button>
     </div>
-    <script src="app.js?v=e3aabdf43060"></script>
+    <script src="sample-catalogue.js?v=20260922-numeric"></script>
+    <script src="app.js?v=20260922-uppercase-liters"></script>
+    <script src="keypad-config.js?v=20260922-numeric"></script>
+    <script src="keypad.js?v=20260922-four-columns"></script>
   </body>
 </html>

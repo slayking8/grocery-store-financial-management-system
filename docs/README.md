@@ -1,5 +1,9 @@
 # Merca: product and design rationale
 
+## Keypad experiment
+
+This separate copy adds the [keypad search prototype](keypad-search.md) from `pad.jpeg`, with an [expanded sample assortment](sample-assortment.md) for exercising its codes.
+
 For the local development memory tool, see the [ai-memory usage tutorial](ai-memory-usage.md), including startup, recall, storage locations, service management, and backups.
 
 ## Movable back-to-top shortcut
@@ -56,7 +60,7 @@ The stock warning keeps 32px top and bottom margins and places its title beside 
 
 ## Current quantity entry
 
-Quantity entry opens with focus on the product heading so the keyboard appears only when the quantity field is tapped. The dialog uses a single content flow; the separate scrolling details panel and JavaScript viewport positioning were removed at the owner’s request. Tapping the quantity field selects its entire value so typing replaces it, and scrolls the whole dialog to the bottom, repeating after keyboard viewport resizing so the subtotal and action are prioritized. Tapping +/− preserves quantity-input focus if it already has focus, keeping the keyboard open. The quantity dialog uses 8px outer side margins on small phones and 8px inner padding. Quantidade and available stock share a row with space between them at 320px; they can wrap for enlarged text. Text sizes are unchanged. See [sales and invoice behavior](sales-and-invoices.md#quantity-entry-with-a-phone-keyboard) for implementation and validation limits.
+Quantity entry opens with the quantity field focused and selected so the numeric keyboard is requested immediately. The dialog uses a single content flow; the separate scrolling details panel and JavaScript viewport positioning were removed at the owner’s request. Tapping the quantity field selects its entire value so typing replaces it, and scrolls the whole dialog to the bottom, repeating after keyboard viewport resizing so the subtotal and action are prioritized. Tapping +/− preserves quantity-input focus if it already has focus, keeping the keyboard open. The quantity dialog uses 8px outer side margins on small phones and 8px inner padding. Quantidade and available stock share a row with space between them at 320px; they can wrap for enlarged text. Text sizes are unchanged. See [sales and invoice behavior](sales-and-invoices.md#quantity-entry-with-a-phone-keyboard) for implementation and validation limits.
 
 ## Current category and package filters
 
